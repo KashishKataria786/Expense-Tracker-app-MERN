@@ -1,31 +1,22 @@
-import React, { useState } from 'react'
-import logo from './logo.svg'
+import { useState } from 'react'
 import './App.css'
+import { Route, Routes } from 'react-router-dom'
+import Homepage from './pages/Homepage.jsx'
+import Dashboard from './pages/Dashboard.jsx'
+import NotFound from './pages/NotFound.jsx'
 
 function App() {
-  const [count, setCount] = useState(0)
+  
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button onClick={() => setCount(count => count + 1)}>count is: {count}</button>
-        </p>
-        <p>
-          Edit <code>App.jsx</code> and save to test HMR updates.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Routes>
+        <Route path='/' element={<Homepage/>}/>
+        <Route path='/dashboard' element={<Dashboard/>}/>
+        <Route path='*' element={<NotFound/>}/>
+
+      </Routes>
+    </>
   )
 }
 
