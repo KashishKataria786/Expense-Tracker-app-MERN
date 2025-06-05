@@ -5,6 +5,7 @@ import morgan from 'morgan';
 import cors from 'cors'
 import helmet from 'helmet';
 import connectDatabase from './config/db.js';
+import ExpenseRoutes from './routes/ExpenseRoutes.js';
 const app = express();
 configDotenv();
 
@@ -15,6 +16,9 @@ app.use(express.urlencoded({extended:true}));
 app.use(helmet());
 
 connectDatabase();
+
+app.use('/api/v1',ExpenseRoutes);
+
 const PORT = process.env.PORT;
 
 app.listen(PORT,()=>{
