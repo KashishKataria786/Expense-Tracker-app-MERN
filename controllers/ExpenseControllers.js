@@ -2,43 +2,57 @@ import { ExpenseModal } from "../models/ExpenseModel.js";
 
 // POST controller for Adding Expenses
 export const POSTAddExpenseController = async (req, res) => {
-    try{
-      const { amount , title, expenseCategory, dateOfExpense,description, paymentMode } = req.body;
-      if ( !amount || !title || !expenseCategory || !paymentMode) {
-        res.status(400).json("Data Required");
-      }
+  try {
+    const {
+      amount,
+      title,
+      date,
+      month,
+      year,
+      expenseCategory,
+      description,
+      paymentMode,
+    } = req.body;
+
+    // Check for required fields
+    if (!amount || !title || !date || !month || !year || !expenseCategory || !paymentMode) {
+      return res.status(400).json({ message: "All required fields must be filled." });
+    }
+
+    // Construct full date string and parse it
+    const fullDateString = `${date} ${month} ${year}`;
+    const parsedDate = new Date(`${date} ${month} ${year}`);
+
+    if (isNaN(parsedDate.getTime())) {
+      return res.status(400).json({ message: "Invalid date format." });
+    }
+
     const newExpense = new ExpenseModal({
-    amount,
-    title,
-    expenseCategory,
-    description,
-    dateOfExpense: new Date(),
-    paymentMode,
-  });
+      amount,
+      title,
+      date,
+      month,
+      year,
+      expenseCategory,
+      description,
+      paymentMode,
+      dateOfExpense: parsedDate,
+    });
 
-  if(await newExpense.save()){
-    console.log(`${title} - Expense Saved`);
-  }else{
-    console.log("Error in saving Expense");
+    const savedExpense = await newExpense.save();
 
-    res.status(400).json({
-        message:"Cannot Add Expense Due to Technical Difficulty",
-        error
-    })
-  }
-
-
-  return res.status(201).json({
-    message:`${title} - Expense Created Successfully`,
-    data:newExpense
-  })
-
-  }catch (error) {
-    console.log(error);
-    res.status(500).json({
-        message:"Internal Server Error",
-        error
-    })
+    if (savedExpense) {
+      console.log(`${title} - Expense Saved`);
+      return res.status(200).json({ message: "Expense saved successfully", expense: savedExpense });
+    } else {
+      return res.status(500).json({ message: "Failed to save expense." });
+    }
+  } catch (error) {
+    console.error("Error saving expense:", error);
+    return res.status(500).json({
+      message: "An error occurred while saving the expense.",
+      error: error.message,
+    });
   }
 };
 

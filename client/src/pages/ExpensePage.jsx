@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import ExpenseLayout from '../components/Layout_components/ExpenseLayout/ExpenseLayout'
 import InsightBox from '../components/InsightBox.jsx'
 import TransactionsComponent from '../components/TransactionsComponent.jsx'
+import AddExpenseModal from '../components/AddExpenseModal.jsx'
+import { IoIosAdd } from 'react-icons/io'
  const insightData = [
     {type:"Income",
         quantity:"12,34,343",
@@ -22,12 +24,15 @@ import TransactionsComponent from '../components/TransactionsComponent.jsx'
  ]
 
 const ExpensePage = () => {
+    const[modalIsOpen,setModalIsOpen]= useState(false);
   return (
     <ExpenseLayout>
+        {modalIsOpen&&<AddExpenseModal modalIsOpen={modalIsOpen}  setModalIsOpen={setModalIsOpen}/>}
         <div className='flex items-center justify-between '>
             <h1 className='text-2xl font-bold'>Summary</h1>
-            <h2 className='font-semibold '>2025</h2>
+           <button className='flex justify-center items-center' onClick={()=>setModalIsOpen(true)}><IoIosAdd className='font-bold' size={25}/>Add Expense</button>
         </div>
+        
         <div className='grid grid-cols-4 justify-between items-center py-5'>
             {insightData?.map((item,index)=>{
                 return(

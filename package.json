@@ -19,6 +19,7 @@
     "mongo": "^0.1.0",
     "mongoose": "^8.15.1",
     "morgan": "^1.10.0",
-    "nodemon": "^3.1.10"
+    "nodemon": "^3.1.10",
+    "recharts": "^2.15.3"
   }
 }

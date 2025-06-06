@@ -5,9 +5,11 @@ import Footer from './Footer.jsx'
 const Layout = ({children}) => {
   return (
     <>
-    <Header/>
+    <div className='w-[100%]'>
+      <Header/>
     <main>{children}</main>
     <Footer/>
+    </div>
     </>
   )
 }
