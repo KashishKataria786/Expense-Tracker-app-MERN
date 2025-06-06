@@ -19,14 +19,6 @@ export const POSTAddExpenseController = async (req, res) => {
       return res.status(400).json({ message: "All required fields must be filled." });
     }
 
-    // Construct full date string and parse it
-    const fullDateString = `${date} ${month} ${year}`;
-    const parsedDate = new Date(`${date} ${month} ${year}`);
-
-    if (isNaN(parsedDate.getTime())) {
-      return res.status(400).json({ message: "Invalid date format." });
-    }
-
     const newExpense = new ExpenseModal({
       amount,
       title,
@@ -36,7 +28,6 @@ export const POSTAddExpenseController = async (req, res) => {
       expenseCategory,
       description,
       paymentMode,
-      dateOfExpense: parsedDate,
     });
 
     const savedExpense = await newExpense.save();
@@ -60,7 +51,6 @@ export const POSTAddExpenseController = async (req, res) => {
 export const GetAllExpenseController = async (req, res) => {
   try {
     const allExpenseData = await ExpenseModal.find().sort({ createdAt: -1 });
-    console.log("Expense Data", allExpenseData);
     return res.status(200).json({
       message: "All Expense data Loaded",
       data: allExpenseData,
@@ -73,3 +63,20 @@ export const GetAllExpenseController = async (req, res) => {
     });
   }
 };
+
+// Delete A Particular Expense
+export const DELETEaParticularExpense = async(req,res)=>{
+  try {
+    const deleteExpense = await  ExpenseModal.findByIdAndDelete(id);
+    if(!deleteExpense){
+       return res.status(404).json({ message: "Expense not found" });
+    }
+     res.status(200).json({ message: "Expense deleted successfully", data: deleteExpense });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message:"Internal Server Error",
+      error
+    })
+  }
+}

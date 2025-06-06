@@ -4,6 +4,7 @@ import InsightBox from '../components/InsightBox.jsx'
 import TransactionsComponent from '../components/TransactionsComponent.jsx'
 import AddExpenseModal from '../components/AddExpenseModal.jsx'
 import { IoIosAdd } from 'react-icons/io'
+
  const insightData = [
     {type:"Income",
         quantity:"12,34,343",
@@ -40,7 +41,7 @@ const ExpensePage = () => {
                 )
             })}
         </div>
-        <TransactionsComponent/>
+        <TransactionsComponent modalIsOpen={modalIsOpen}/>
     </ExpenseLayout>
   )
 }

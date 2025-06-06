@@ -3,8 +3,8 @@ import axios from 'axios';
 import Spinner from './Spinner';
 import AddExpenseModal from './AddExpenseModal.jsx';
 import TableDiv from './TableDiv.jsx';
-
-const TransactionsComponent = () => {
+import { GrPowerReset } from "react-icons/gr";
+const TransactionsComponent = ({modalIsOpen}) => {
   const [allExpenseData, setAllExpenseData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [filteredData, setFilteredData] = useState([]);
@@ -36,6 +36,10 @@ const TransactionsComponent = () => {
     setFilters((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleResetFilter = ()=>{
+    setFilteredData(allExpenseData);
+  }
+
   useEffect(() => {
     const timeoutId = setTimeout(() => {
         // setLoading(true);
@@ -43,12 +47,12 @@ const TransactionsComponent = () => {
       // setLoading(false);
     }, 1000); // lazy load after 1 second
     return () => clearTimeout(timeoutId);
-  }, []);
+  }, [modalIsOpen]);
 
   useEffect(()=>{
     let data = [...allExpenseData];
 
- if (Filters.category) {
+    if (Filters.category) {
       data = data.filter(exp => exp.expenseCategory === Filters.category);
     }
 
@@ -87,6 +91,7 @@ const categoryOptions = ['Food', 'Travel', 'Shopping', 'Bills', 'Others'];
           <div>
             {/* Filter Placeholder */}
             <div className='flex gap-2 items-center'>
+            
             <select name="category" value={Filters.category} onChange={handleFilterChange} className='bg-gray-100 py-2  p-1 rounded-md'>
               <option value="">All Categories</option>
               {categoryOptions.map(opt => <option key={opt} value={opt}>{opt}</option>)}
@@ -101,6 +106,9 @@ const categoryOptions = ['Food', 'Travel', 'Shopping', 'Bills', 'Others'];
               <option className='text-gray-800' value="">All Months</option>
               {monthOptions.map(opt => <option className='text-gray-800 p-2' key={opt} value={opt}>{opt}</option>)}
             </select>
+            <div onClick= {handleResetFilter}className='p-1  bg-[#040404f6] rounded-sm'>
+              <GrPowerReset size={30} color='white'/>
+            </div>
             </div>
           </div>
         </div>
@@ -113,6 +121,7 @@ const categoryOptions = ['Food', 'Travel', 'Shopping', 'Bills', 'Others'];
         </div>
       </div>
       <div>
+        
        {loading ? (
   <Spinner />
 ) : filteredData && filteredData.length > 0 ? (

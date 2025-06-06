@@ -23,7 +23,7 @@ function AddExpenseModal({modalIsOpen,setModalIsOpen}) {
            <h2 className='font-semibold text-2xl pl-3 '>Add An Expense</h2>
         <IoMdClose onClick={()=>setModalIsOpen(false)} size={40} />
       </div>
-        <AddExpenseForm/>
+        <AddExpenseForm setModalIsOpen={setModalIsOpen}/>
         
       </Modal>
     </div>
