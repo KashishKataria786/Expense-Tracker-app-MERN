@@ -16,7 +16,7 @@ const TransactionsComponent = ({modalIsOpen}) => {
 
 
 
-  const getAllExpenseData = async () => {
+   const getAllExpenseData = async () => {
     try {
       setLoading(true);
       const response = await axios.get(`${import.meta.env.VITE_REACT_APP_BASE_URL}/get-all-expenses`);
