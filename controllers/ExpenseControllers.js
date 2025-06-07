@@ -51,6 +51,7 @@ export const POSTAddExpenseController = async (req, res) => {
 export const GetAllExpenseController = async (req, res) => {
   try {
     const allExpenseData = await ExpenseModal.find().sort({ createdAt: -1 });
+    console.log(allExpenseData)
     return res.status(200).json({
       message: "All Expense data Loaded",
       data: allExpenseData,

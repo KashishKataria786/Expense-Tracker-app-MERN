@@ -10,6 +10,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
+import Spinner from '../components/Spinner';
 
 // Register components
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
@@ -103,7 +104,7 @@ const AnalyticsPage = () => {
       </div>
 
       {loading ? (
-        <div className="text-center text-gray-500">Loading...</div>
+        <div className="text-center text-gray-500"><Spinner/></div>
       ) : (
         <div className="w-full max-w-5xl mx-auto p-4">
           <h2 className="text-xl font-semibold text-center mb-4">Monthly Expenses Overview</h2>
