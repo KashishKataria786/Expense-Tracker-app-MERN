@@ -1,5 +1,12 @@
+import axios from "axios";
 import { MdDelete } from "react-icons/md";
-const TableDiv = ({ title, expenseCategory, amount }) => {
+import { toast } from "react-toastify";
+const TableDiv = ({ title, expenseCategory, amount,id , handleDeleteExpense}) => {
+
+
+
+
+
   return (
     <div className='py-2 border-b border-gray-100 flex justify-between items-center'>
       
@@ -13,9 +20,9 @@ const TableDiv = ({ title, expenseCategory, amount }) => {
 
       <div className="flex gap-4 justify-center items-center">
         <h4 className="font-semibold">₹{amount}</h4>
-        {/* <div onClick={"delete func"}>
-          <MdDelete className="text-gray-300 hover:text-red-300" size={25}/>
-        </div> */}
+        <div onClick={()=>handleDeleteExpense(id)} >
+          <MdDelete  className="text-gray-300 hover:text-red-300" size={25}/>
+        </div>
       </div>
     </div>
   );

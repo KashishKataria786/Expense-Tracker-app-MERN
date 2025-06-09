@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import Spinner from './Spinner';
 import AddExpenseModal from './AddExpenseModal.jsx';
 import TableDiv from './TableDiv.jsx';
 import { GrPowerReset } from "react-icons/gr";
+
+
 const TransactionsComponent = ({modalIsOpen}) => {
   const [allExpenseData, setAllExpenseData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -14,7 +16,20 @@ const TransactionsComponent = ({modalIsOpen}) => {
     month:"",
   });
 
-
+  const handleDeleteExpense = async ( id ) => {
+  try {
+    const response = await axios.delete(`${import.meta.env.VITE_REACT_APP_BASE_URL}/delete-expense/${id}`);
+    
+    if (response.status === 200) {
+      toast.success("Expense Deleted Successfully");
+    } else {
+      toast.error("Failed to delete expense");
+    }
+  } catch (error) {
+    toast.error("Cannot Delete Expense");
+    console.error("Delete error:", error);
+  }
+};
 
    const getAllExpenseData = async () => {
     try {
@@ -81,7 +96,7 @@ const categoryOptions = ['Food', 'Travel', 'Shopping', 'Bills', 'Others'];
     <>
     
       <div className='mb-4'>
-        <div className='flex justify-between items-center'>
+        <div className='md:flex space-y-6 justify-between items-center'>
           <div>
             <h3 className='font-semibold'>Transactions</h3>
             <p className='text-sm font-medium text-gray-500'>
@@ -90,7 +105,7 @@ const categoryOptions = ['Food', 'Travel', 'Shopping', 'Bills', 'Others'];
           </div>
           <div>
             {/* Filter Placeholder */}
-            <div className='flex gap-2 items-center'>
+            <div className='flex space-y-3 space-x-1 text-sm gap-2 items-center'>
             
             <select name="category" value={Filters.category} onChange={handleFilterChange} className='bg-gray-100 py-2  p-1 rounded-md'>
               <option value="">All Categories</option>
@@ -106,7 +121,7 @@ const categoryOptions = ['Food', 'Travel', 'Shopping', 'Bills', 'Others'];
               <option className='text-gray-800' value="">All Months</option>
               {monthOptions.map(opt => <option className='text-gray-800 p-2' key={opt} value={opt}>{opt}</option>)}
             </select>
-            <div onClick= {handleResetFilter}className='p-1  bg-[#040404f6] rounded-sm'>
+            <div onClick= {handleResetFilter}className=' flex items-center justify-center w-[40px] p-1 bg-[#040404f6] rounded-sm'>
               <GrPowerReset size={30} color='white'/>
             </div>
             </div>
@@ -128,10 +143,12 @@ const categoryOptions = ['Food', 'Travel', 'Shopping', 'Bills', 'Others'];
   <div>
     {filteredData.map((item, index) => (
       <TableDiv
+      id={item._id}
         key={index}
         title={item.title}
         expenseCategory={item.expenseCategory}
         amount={item.amount}
+        handleDeleteExpense={handleDeleteExpense}
       />
     ))}
   </div>

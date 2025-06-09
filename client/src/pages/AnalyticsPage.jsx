@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import ExpenseLayout from '../components/Layout_components/ExpenseLayout/ExpenseLayout';
 import axios from 'axios';
 import {
@@ -18,6 +18,7 @@ ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 const AnalyticsPage = () => {
   const [loading, setLoading] = useState(false);
   const [allExpenseData, setAllExpenseData] = useState([]);
+
 
   useEffect(() => {
     (async () => {

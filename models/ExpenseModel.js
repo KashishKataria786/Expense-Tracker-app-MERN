@@ -36,7 +36,7 @@ const ExpenseSchema = new mongoose.Schema({
     paymentMode:{
         type:String,
         required:true,
-         enum: ['Cash', 'Card', 'UPI', 'NetBanking', 'Other'],
+         enum: ['Cash', 'Card', 'UPI', 'NetBanking', 'Others'],
     },
     // dateOfExpense:{
     //     type:Date,

@@ -178,7 +178,7 @@ const months = [
             <option value="Card">Card</option>
             <option value="UPI">UPI</option>
             <option value="NetBanking">Net Banking</option>
-            <option value="Other">Others</option>
+            <option value="Others">Others</option>
           </select>
         </div>
       </div>

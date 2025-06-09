@@ -1,11 +1,16 @@
 import React from 'react'
 import Layout from '../components/Layout_components/Layout.jsx'
+import ExpenseLayout from '../components/Layout_components/ExpenseLayout/ExpenseLayout.jsx'
+import { useExpenseData } from '../customHooks/useExpenseData..jsx'
 
 const Dashboard = () => {
+  const {allExpenseData, loading, error}= useExpenseData()
   return (
-    <Layout>
-        <h2>Dashbaord</h2>
-    </Layout>
+    <ExpenseLayout>
+      <div>
+      {JSON.stringify(allExpenseData,0)}
+      </div>
+    </ExpenseLayout>
   )
 }
 

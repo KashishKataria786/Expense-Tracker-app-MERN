@@ -67,6 +67,7 @@ export const GetAllExpenseController = async (req, res) => {
 
 // Delete A Particular Expense
 export const DELETEaParticularExpense = async(req,res)=>{
+  const {id}= req.params
   try {
     const deleteExpense = await  ExpenseModal.findByIdAndDelete(id);
     if(!deleteExpense){

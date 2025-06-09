@@ -30,11 +30,11 @@ const ExpensePage = () => {
     <ExpenseLayout>
         {modalIsOpen&&<AddExpenseModal modalIsOpen={modalIsOpen}  setModalIsOpen={setModalIsOpen}/>}
         <div className='flex items-center justify-between '>
-            <h1 className='text-2xl font-bold'>Summary</h1>
+            <h2 className='md:text-2xl text-xl font-bold'>Summary</h2>
            <button className='flex justify-center items-center' onClick={()=>setModalIsOpen(true)}><IoIosAdd className='font-bold' size={25}/>Add Expense</button>
         </div>
         
-        <div className='grid grid-cols-4 justify-between items-center py-5'>
+        <div className='grid grid-cols-2 md:grid-cols-4 justify-between items-center py-5'>
             {insightData?.map((item,index)=>{
                 return(
                     < InsightBox key={index} type={item.type} quantity={item.quantity} percentage={item.percentage}/>

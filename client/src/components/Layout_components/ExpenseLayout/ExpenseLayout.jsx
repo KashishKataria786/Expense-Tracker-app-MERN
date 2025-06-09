@@ -3,7 +3,7 @@ import ExpenseHeader from './ExpenseHeader'
 
 const ExpenseLayout = ({children}) => {
   return (
-    <div className=' relative w-[70vw] mx-auto my-2'>
+    <div className=' relative md:w-[70vw] px-3 mx-auto my-2'>
         <ExpenseHeader/>
         <main>
             {children}
