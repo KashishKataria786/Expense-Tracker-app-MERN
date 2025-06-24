@@ -1,52 +1,24 @@
-import React, { useContext, useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+// import axios from 'axios';
 import Spinner from './Spinner';
 import AddExpenseModal from './AddExpenseModal.jsx';
 import TableDiv from './TableDiv.jsx';
 import { GrPowerReset } from "react-icons/gr";
+import { useExpenseData } from '../customHooks/useExpenseData..jsx';
 
 
 const TransactionsComponent = ({modalIsOpen}) => {
-  const [allExpenseData, setAllExpenseData] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [filteredData, setFilteredData] = useState([]);
   const [Filters,setFilters] = useState({
     category:"",
     paymentMode:"",
     month:"",
   });
+  const [searchItem,setSearchItem]= useState("");
+  const {deleteExpense,getAllExpenseData,allExpenseData,loading} = useExpenseData(); 
 
-  const handleDeleteExpense = async ( id ) => {
-  try {
-    const response = await axios.delete(`${import.meta.env.VITE_REACT_APP_BASE_URL}/delete-expense/${id}`);
-    
-    if (response.status === 200) {
-      toast.success("Expense Deleted Successfully");
-    } else {
-      toast.error("Failed to delete expense");
-    }
-  } catch (error) {
-    toast.error("Cannot Delete Expense");
-    console.error("Delete error:", error);
-  }
-};
 
-   const getAllExpenseData = async () => {
-    try {
-      setLoading(true);
-      const response = await axios.get(`${import.meta.env.VITE_REACT_APP_BASE_URL}/get-all-expenses`);
-      setAllExpenseData(response?.data?.data || []);
-      setFilteredData(response?.data?.data || [])
-      setLoading(false);
-    } catch (error) {
-      console.error('Error fetching expenses:', error);
-      setLoading(false);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-   const handleFilterChange = (e) => {
+  const handleFilterChange = (e) => {
     const { name, value } = e.target;
     setFilters((prev) => ({ ...prev, [name]: value }));
   };
@@ -57,9 +29,8 @@ const TransactionsComponent = ({modalIsOpen}) => {
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
-        // setLoading(true);
       getAllExpenseData();
-      // setLoading(false);
+
     }, 1000); // lazy load after 1 second
     return () => clearTimeout(timeoutId);
   }, [modalIsOpen]);
@@ -105,7 +76,7 @@ const categoryOptions = ['Food', 'Travel', 'Shopping', 'Bills', 'Others'];
           </div>
           <div>
             {/* Filter Placeholder */}
-            <div className='flex space-y-3 space-x-1 text-sm gap-2 items-center'>
+            <div className='flex justify space-y-3 space-x-1 text-sm gap-2 items-center'>
             
             <select name="category" value={Filters.category} onChange={handleFilterChange} className='bg-gray-100 py-2  p-1 rounded-md'>
               <option value="">All Categories</option>
@@ -121,11 +92,14 @@ const categoryOptions = ['Food', 'Travel', 'Shopping', 'Bills', 'Others'];
               <option className='text-gray-800' value="">All Months</option>
               {monthOptions.map(opt => <option className='text-gray-800 p-2' key={opt} value={opt}>{opt}</option>)}
             </select>
-            <div onClick= {handleResetFilter}className=' flex items-center justify-center w-[40px] p-1 bg-[#040404f6] rounded-sm'>
+            <div onClick= {handleResetFilter}className=' flex items-center justify-start w-[40px] p-1 bg-[#040404f6] rounded-sm'>
               <GrPowerReset size={30} color='white'/>
             </div>
             </div>
           </div>
+        </div>
+        <div>
+          <input className='border px-2 py-1 rounded-sm'  placeholder='search Item' type='search' value={searchItem} onChange={(e)=>setSearchItem(e.target.value)} />
         </div>
       </div>
 
@@ -141,14 +115,16 @@ const categoryOptions = ['Food', 'Travel', 'Shopping', 'Bills', 'Others'];
   <Spinner />
 ) : filteredData && filteredData.length > 0 ? (
   <div>
-    {filteredData.map((item, index) => (
+    {filteredData?.map((item, index) => (
       <TableDiv
+      modalIsOpen={modalIsOpen}
+      setmodal
       id={item._id}
         key={index}
         title={item.title}
         expenseCategory={item.expenseCategory}
         amount={item.amount}
-        handleDeleteExpense={handleDeleteExpense}
+        deleteExpense={deleteExpense}
       />
     ))}
   </div>

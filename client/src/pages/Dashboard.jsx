@@ -4,7 +4,7 @@ import ExpenseLayout from '../components/Layout_components/ExpenseLayout/Expense
 import { useExpenseData } from '../customHooks/useExpenseData..jsx'
 
 const Dashboard = () => {
-  const {allExpenseData, loading, error}= useExpenseData()
+  const {allExpenseData}= useExpenseData()
   return (
     <ExpenseLayout>
       <div>

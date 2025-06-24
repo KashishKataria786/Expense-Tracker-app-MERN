@@ -30,7 +30,7 @@ const ExpensePage = () => {
     <ExpenseLayout>
         {modalIsOpen&&<AddExpenseModal modalIsOpen={modalIsOpen}  setModalIsOpen={setModalIsOpen}/>}
         <div className='flex items-center justify-between '>
-            <h2 className='md:text-2xl text-xl font-bold'>Summary</h2>
+            <h2 className='text-5xl font-bold'>Summary</h2>
            <button className='flex justify-center items-center' onClick={()=>setModalIsOpen(true)}><IoIosAdd className='font-bold' size={25}/>Add Expense</button>
         </div>
         

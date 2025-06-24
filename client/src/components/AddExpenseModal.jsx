@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React from "react";
 import Modal from "react-modal";
 import AddExpenseForm from "./AddExpenseForm";
 

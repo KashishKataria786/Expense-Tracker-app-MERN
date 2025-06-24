@@ -9,7 +9,7 @@ import ExpenseRoutes from './routes/ExpenseRoutes.js';
 const app = express();
 configDotenv();
 
-app.use(morgan());
+app.use(morgan('combined'));
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));

@@ -62,11 +62,20 @@ export const POSTAddExpenseController = async (req, res) => {
 // GET Controller for Getting All Expenses
 export const GetAllExpenseController = async (req, res) => {
   try {
-    const allExpenseData = await ExpenseModal.find().sort({ createdAt: -1 })
+
+    const page=   parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+
+    const skip =(page-1)*limit;
+
+    const allExpenseData = await ExpenseModal.find().sort({ createdAt: -1 }).skip(skip).limit(limit)
+    const totalExpenseCount = await ExpenseModal.countDocuments();
+
     console.log(allExpenseData)
     return res.status(200).json({
-      message: 'All Expense data Loaded',
-      data: allExpenseData
+      message:' All Expense data Loaded',
+      data: allExpenseData,
+      totalExpenseCount
     })
   } catch (error) {
     console.log('Error fetching Expense Data', error)
